@@ -5,9 +5,16 @@ import (
 	"kb-freelance-api/internal/config"
 	"log"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	// Load .env file if it exists
+	if err := godotenv.Load(); err != nil {
+		log.Printf("No .env file found, using system environment variables: %v", err)
+	}
+
 	// Load configuration
 	cfg := config.Load()
 
