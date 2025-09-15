@@ -4,10 +4,13 @@ A Go-based REST API that integrates with the existing Python CLI applications fo
 
 ## Features
 
-- **Time Tracking**: Start/stop timers, get status, view entries
-- **Invoice Generation**: Generate invoices from time entries
+- **Time Tracking**: Start/stop timers, get status, view today's summary
+- **Invoice Generation**: Generate PDF invoices with line items
 - **REST API**: Clean RESTful interface for frontend integration
 - **CORS Support**: Ready for React frontend integration
+- **Environment Configuration**: Fully configurable via environment variables
+- **Comprehensive Testing**: Unit tests, integration tests, and test coverage
+- **Python CLI Integration**: Seamless integration with existing Python tools
 
 ## Architecture
 
@@ -103,17 +106,32 @@ go run main.go
 
 ```
 kb-freelance-api/
-├── main.go                    # Application entry point
+├── main.go                           # Application entry point
+├── go.mod                            # Go module definition
+├── go.sum                            # Module checksums
+├── .gitignore                        # Git ignore rules
+├── env.example                       # Environment configuration template
+├── run_tests.sh                      # Test runner script
+├── run_integration_tests.sh          # Integration test runner
+├── README.md                         # This file
+├── TESTING.md                        # Testing documentation
 ├── internal/
-│   ├── api/                   # HTTP handlers and server setup
-│   │   ├── server.go         # Gin server configuration
-│   │   └── handlers.go       # API endpoint handlers
-│   ├── config/               # Configuration management
-│   │   └── config.go         # Config struct and loading
-│   └── services/             # Business logic layer
-│       ├── time_tracker.go   # Time tracking service
-│       └── invoice.go        # Invoice generation service
-└── README.md                 # This file
+│   ├── api/                          # HTTP handlers and server setup
+│   │   ├── server.go                 # Gin server configuration
+│   │   ├── handlers.go               # API endpoint handlers
+│   │   ├── server_test.go            # Server tests
+│   │   ├── handlers_test.go          # Handler tests
+│   │   └── integration_test.go       # API integration tests
+│   ├── config/                       # Configuration management
+│   │   ├── config.go                 # Config struct and loading
+│   │   └── config_test.go            # Configuration tests
+│   └── services/                     # Business logic layer
+│       ├── time_tracker.go           # Time tracking service
+│       ├── invoice.go                # Invoice generation service
+│       ├── time_tracker_test.go      # Time tracker tests
+│       ├── invoice_test.go           # Invoice service tests
+│       └── integration_test.go       # Service integration tests
+└── tests/                            # Test utilities and helpers
 ```
 
 ## Integration with Python CLIs
@@ -123,11 +141,36 @@ The API executes the existing Python CLI applications as subprocesses:
 - **Time Tracker**: Calls `python3 -m tt.cli` commands
 - **Invoice Generator**: Calls `python3 -m src.main` commands
 
-## Future Enhancements
+## Testing
 
-- [ ] Add JSON output to Python CLIs for better parsing
-- [ ] Implement database direct access for better performance
-- [ ] Add authentication and authorization
-- [ ] Add comprehensive logging and monitoring
-- [ ] Add API documentation with Swagger
-- [ ] Add unit and integration tests
+The project includes comprehensive testing:
+
+- **Unit Tests**: Mock-based tests for isolated testing
+- **Integration Tests**: Real service tests with Python CLI integration
+- **Test Coverage**: 61% services, 29% API, 100% config
+
+### Running Tests
+
+```bash
+# Run all tests
+go test ./...
+
+# Run with coverage
+go test -cover ./...
+
+# Run integration tests
+./run_integration_tests.sh
+
+# Run test suite
+./run_tests.sh
+```
+
+## Contributing
+
+This is a personal project showcasing Go API development with Python CLI integration. The codebase demonstrates:
+
+- Clean Go project structure with `internal/` packages
+- Environment-based configuration
+- Comprehensive testing strategy
+- Integration with external Python processes
+- RESTful API design with Gin framework
