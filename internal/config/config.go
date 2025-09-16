@@ -25,7 +25,7 @@ func Load() *Config {
 		InvoiceGenPath:  getEnv("INVOICE_GEN_PATH", filepath.Join(freelanceToolsDir, "kb-invoice-gen-cli")),
 		DatabasePath:    getEnv("DATABASE_PATH", filepath.Join(os.Getenv("HOME"), ".kb-tt-cli", "time_tracker.db")),
 		Port:            getEnv("PORT", "8080"),
-		PythonExecPath:  getEnv("PYTHON_EXEC_PATH", "python3"),
+		PythonExecPath:  getEnv("PYTHON_EXEC_PATH", "/Users/kevinbinder/anaconda3/envs/kb-freelance/bin/python"),
 	}
 
 	// Debug: log the paths

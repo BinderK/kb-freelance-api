@@ -77,3 +77,6 @@ func TestConfigPaths(t *testing.T) {
 		t.Errorf("Expected InvoiceGenPath to be %s, got %s", expectedInvoiceGenPath, cfg.InvoiceGenPath)
 	}
 }
+
+
+

@@ -44,3 +44,6 @@ echo "  PYTHON_EXEC_PATH='/path/to/python' \\"
 echo "  TIME_TRACKER_PATH='/path/to/kb-tt-cli' \\"
 echo "  INVOICE_GEN_PATH='/path/to/kb-invoice-gen-cli' \\"
 echo "  ./run_integration_tests.sh"
+
+
+

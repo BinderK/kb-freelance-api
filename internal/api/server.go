@@ -35,17 +35,25 @@ func (s *Server) Start(addr string) error {
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000", "http://127.0.0.1:3000"},
+		AllowOrigins:     []string{"http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:5173", "http://127.0.0.1:5173"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
 
-	// Health check endpoint
+	// Health check endpoints
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "ok", "service": "kb-freelance-api"})
 	})
+
+	// API health check endpoint
+	router.GET("/api/health", func(c *gin.Context) {
+		c.JSON(200, gin.H{"success": true, "data": gin.H{"status": "ok", "service": "kb-freelance-api", "timestamp": "2024-01-01T00:00:00Z"}})
+	})
+
+	// Static file serving for PDFs
+	router.Static("/files", s.config.InvoiceGenPath+"/output")
 
 	// API routes
 	api := router.Group("/api")
@@ -55,7 +63,7 @@ func (s *Server) Start(addr string) error {
 		{
 			time.POST("/start", s.startTimer)
 			time.POST("/stop", s.stopTimer)
-			time.GET("/status", s.getTimerStatus)
+			time.GET("/current", s.getTimerStatus) // Changed from /status to /current
 			time.GET("/entries", s.getTimeEntries)
 			time.GET("/today", s.getTodaySummary)
 		}
